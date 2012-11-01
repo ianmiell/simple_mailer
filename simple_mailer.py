@@ -2,13 +2,17 @@ import pexpect
 import base64
 import argparse
 import sys
+import os, stat
+
 
 # TODO:
 # subject
-# password file's perms
 # content 
 
 def main(args):
+	if is_file_secure(args.passfile) == False:
+		print "File: " + args.passfile + " must be readable only by user running the script"
+		exit()
 	f = file(args.passfile)
 	password = f.read().strip()
 	sender = args.sender
@@ -35,6 +39,16 @@ def smtp_session(sender,auth_string,recipient):
 	child.sendline('quit')
 	child.expect('221.*closing')
 	print 'sent'
+
+def is_file_secure(file_name):
+	try:
+		file_mode = os.stat(file_name).st_mode
+		if file_mode & (stat.S_IRGRP | stat.S_IWGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IWOTH | stat.S_IXOTH):
+			return False
+	except:
+		pass
+	return True
+
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser(description='Send mail as simply as possible on the command line')
