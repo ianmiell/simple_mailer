@@ -13,31 +13,31 @@ I'm sure something like this has been written by someone smarter than me, but th
 This is not written with security, efficiency or scalability in mind.
 
 ##To run
-   python simple_mailer.py -h
-   usage: simple_mailer.py [-h] --sender SENDER --to TO --passfile PASSFILE
-                           [--subject SUBJECT] [--contentfile CONTENTFILE]
-                           [--content CONTENT]
-   
-   Send mail as simply as possible on the command line
-   
-   optional arguments:
-     -h, --help            show this help message and exit
-     --sender SENDER       Sender of email
-     --to TO               Recipient of email
-     --passfile PASSFILE   File with password of from account in; should have
-                           perms of read only for the owner
-     --subject SUBJECT     Subject of mail
-     --contentfile CONTENTFILE
-                           Filename containing content of mail
-     --content CONTENT     Content of mail as a command line argument
+`python simple_mailer.py -h
+usage: simple_mailer.py [-h] --sender SENDER --to TO --passfile PASSFILE
+                        [--subject SUBJECT] [--contentfile CONTENTFILE]
+                        [--content CONTENT]
+
+Send mail as simply as possible on the command line
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --sender SENDER       Sender of email
+  --to TO               Recipient of email
+  --passfile PASSFILE   File with password of from account in; should have
+                        perms of read only for the owner
+  --subject SUBJECT     Subject of mail
+  --contentfile CONTENTFILE
+                        Filename containing content of mail
+  --content CONTENT     Content of mail as a command line argument`
 
 
 ##Requirements
 python modules:
-    pexpect
-    base64
-    argparse
-    sys
-    os
-    stat
+`pexpect
+base64
+argparse
+sys
+os
+stat`
 
