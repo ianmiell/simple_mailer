@@ -8,6 +8,8 @@ import stat
 
 # TODO:
 # logging
+# HTML messages; http://en.wikipedia.org/wiki/MIME
+# Reply-To
 
 def main(args):
 	if is_file_secure(args.passfile) == False:
