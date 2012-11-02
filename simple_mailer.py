@@ -27,14 +27,12 @@ def main(args):
 	if args.subject == None:
 		subject = ""
 	auth_base64 = base64.b64encode('\0'+sender+'\0'+password)
-		
-	subject = 'A subject placeholder'
-	content = 'Content placeholder'
 	smtp_session(sender,auth_base64,recipient,subject,content)
 
 def smtp_session(sender,auth_string,recipient,subject,content):
 	# OR? openssl s_client -connect smtp.gmail.com:465 -crlf -ign_eof
-	child = pexpect.spawn('openssl s_client -starttls smtp -connect smtp.gmail.com:587 -crlf -ign_eof')
+	#child = pexpect.spawn('openssl s_client -starttls smtp -connect smtp.gmail.com:587 -crlf -ign_eof')
+	child = pexpect.spawn('openssl s_client -starttls smtp -connect smtp.gmail.com:587 -crlf -quiet')
 	child.logfile = sys.stdout
 	child.expect('250 ENHANCEDSTATUSCODES')
 	child.sendline('EHLO localhost')
