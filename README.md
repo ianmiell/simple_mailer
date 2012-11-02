@@ -6,7 +6,9 @@ As simple a gmail mailer as I could write.
 
 I wanted to send mails from a server from my gmail account to alert me to things on my server with as little fuss as possible.
 
-After searching for some time for something suitable which required minimal installation, and after following various googled webpage guides and failing to make anything work I decided it would be simpler and more instructive to write my own smtp client.
+After searching for some time for something suitable which required minimal installation, and after following various googled webpage guides and failing to make anything work I decided it would be simpler and more instructive to write my own smtp server (or client, depending on your viewpoint).
+
+Specifically, I didn't want to install and configure an SMTP server locally.
 
 I'm sure something like this has been written by someone smarter than me, but the deed is done now.
 
@@ -43,3 +45,6 @@ python modules:
     os
     stat
 
+command-line utlities:
+
+    openssl
