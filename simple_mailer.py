@@ -2,12 +2,12 @@ import pexpect
 import base64
 import argparse
 import sys
-import os, stat
+import os
+import stat
 
 
 # TODO:
-# subject
-# content 
+# logging
 
 def main(args):
 	if is_file_secure(args.passfile) == False:
@@ -17,10 +17,23 @@ def main(args):
 	password = f.read().strip()
 	sender = args.sender
 	recipient = args.to
+	if args.contentfile != None:
+		content = file(args.contentfile).read()
+	elif args.content != None:
+		content = args.content
+	else:
+		print "You must provide content for the email"
+		exit()
+	if args.subject == None:
+		subject = ""
 	auth_base64 = base64.b64encode('\0'+sender+'\0'+password)
-	smtp_session(sender,auth_base64,recipient)
+		
+	subject = 'A subject placeholder'
+	content = 'Content placeholder'
+	smtp_session(sender,auth_base64,recipient,subject,content)
 
-def smtp_session(sender,auth_string,recipient):
+def smtp_session(sender,auth_string,recipient,subject,content):
+	# OR? openssl s_client -connect smtp.gmail.com:465 -crlf -ign_eof
 	child = pexpect.spawn('openssl s_client -starttls smtp -connect smtp.gmail.com:587 -crlf -ign_eof')
 	child.logfile = sys.stdout
 	child.expect('250 ENHANCEDSTATUSCODES')
@@ -34,7 +47,9 @@ def smtp_session(sender,auth_string,recipient):
 	child.expect('250.*OK')
 	child.sendline('DATA')
 	child.expect('Go ahead')
-	child.send('stuff1\n.\n')
+	child.send('Subject: ' + subject + '\n\n')
+	child.sendline(content)
+	child.sendline('.')
 	child.expect('250.*OK')
 	child.sendline('quit')
 	child.expect('221.*closing')
@@ -52,9 +67,12 @@ def is_file_secure(file_name):
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser(description='Send mail as simply as possible on the command line')
-	parser.add_argument('--sender', help='sender of email',required=True)
-	parser.add_argument('--to', help='recipient of email',required=True)
-	parser.add_argument('--passfile', help='file with password of from account in; should have perms of read only for the owner',required=True)
+	parser.add_argument('--sender', help='Sender of email',required=True)
+	parser.add_argument('--to', help='Recipient of email',required=True)
+	parser.add_argument('--passfile', help='File with password of from account in; should have perms of read only for the owner',required=True)
+	parser.add_argument('--subject', help='Subject of mail',required=False)
+	parser.add_argument('--contentfile', help='Filename containing content of mail',required=False)
+	parser.add_argument('--content', help='Content of mail as a command line argument',required=False)
 	args = parser.parse_args()
 	main(args)
 
