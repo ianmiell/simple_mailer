@@ -44,6 +44,7 @@ python modules:
     sys
     os
     stat
+    logging
 
 command-line utlities:
 
