@@ -27,8 +27,6 @@ def main(sender,to,passfile,subject,contentfile,content):
 		exit()
 	if subject == None:
 		subject = ""
-	else:
-		subject = args.subject
 	auth_base64 = base64.b64encode('\0'+sender+'\0'+password)
 	smtp_session(sender,auth_base64,recipient,subject,content)
 
