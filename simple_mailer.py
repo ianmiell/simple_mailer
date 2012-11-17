@@ -12,22 +12,20 @@ import logging
 # HTML messages; http://en.wikipedia.org/wiki/MIME
 # Reply-To
 
-def main(args):
-	if is_file_secure(args.passfile) == False:
-		print "File: " + args.passfile + " must be readable only by user running the script"
+# Main function, called when run as script or can be called directly.
+def main(sender,to,passfile,subject,contentfile,content):
+	if is_file_secure(passfile) == False:
+		print "File: " + passfile + " must be readable only by user running the script"
 		exit()
-	f = file(args.passfile)
+	f = file(passfile)
 	password = f.read().strip()
-	sender = args.sender
-	recipient = args.to
-	if args.contentfile != None:
-		content = file(args.contentfile).read()
-	elif args.content != None:
-		content = args.content
-	else:
+	recipient = to
+	if contentfile != None:
+		content = file(contentfile).read()
+	elif content == None:
 		print "You must provide content for the email"
 		exit()
-	if args.subject == None:
+	if subject == None:
 		subject = ""
 	else:
 		subject = args.subject
@@ -77,6 +75,6 @@ if __name__ == '__main__':
 	parser.add_argument('--contentfile', help='Filename containing content of mail',required=False)
 	parser.add_argument('--content', help='Content of mail as a command line argument',required=False)
 	args = parser.parse_args()
-	main(args)
+	main(args.sender,args.to,args.passfile,args.subject,args.contentfile,args.content)
 
 
