@@ -35,9 +35,13 @@ def smtp_session(sender,auth_string,recipient,subject,content):
 	#child = pexpect.spawn('openssl s_client -starttls smtp -connect smtp.gmail.com:587 -crlf -ign_eof')
 	child = pexpect.spawn('openssl s_client -starttls smtp -connect smtp.gmail.com:587 -crlf -quiet')
 	child.logfile = sys.stdout
-	child.expect('250 ENHANCEDSTATUSCODES')
+	#child.expect('250 ENHANCEDSTATUSCODES')
+	# We also see CHUNKING here, so let's just take 250 as ok.
+	child.expect('250 ')
 	child.sendline('EHLO localhost')
-	child.expect('250 ENHANCEDSTATUSCODES')
+	# We also see CHUNKING here, so let's just take 250 as ok.
+	#child.expect('250 ENHANCEDSTATUSCODES')
+	child.expect('250 ')
 	child.sendline('AUTH PLAIN ' + auth_string)
 	child.expect('235.*Accepted')
 	child.sendline('MAIL FROM: <' + sender + '>')
